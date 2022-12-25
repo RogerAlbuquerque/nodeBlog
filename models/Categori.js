@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 //Definindo o model
   const Categori = new Schema({
 
-    nome:{
+    name:{
       type:String,
       require:true
     },
