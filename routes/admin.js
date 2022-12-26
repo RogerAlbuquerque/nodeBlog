@@ -23,6 +23,12 @@ router.get('/categories/add', (req,res)=>{
 });
 
 router.post('/categories/new', (req,res)=>{
+
+    var error = [];
+    if(!req.body.name || typeof req.body.name == undefined || req.body.name == null){
+      error.push({text: "Nome inválido"})
+    }
+   
   const newCategori ={
     name: req.body.name,
     slug: req.body.slug
