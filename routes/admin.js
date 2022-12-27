@@ -14,7 +14,17 @@ router.get('/posts', (req,res)=>{
 });
 
 router.get('/categories', (req,res)=>{
-  res.render("admin/categories")
+  Categori.find().then((categories) => {
+    const data = categories.map((result) => result.toJSON())
+
+    res.render("admin/categories", {categories: data})
+
+    
+  }).catch(err =>{
+      req.flash("error_msg", "Deu caquinha ai dá um bizu")
+      res.redirect("/admin")
+  })
+  
 });
 
 
