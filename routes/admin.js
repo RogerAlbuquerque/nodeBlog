@@ -9,10 +9,6 @@ router.get('/', (req,res)=>{
   res.render("admin/index")
 });
 
-router.get('/posts', (req,res)=>{
-  res.send("posts page")
-});
-
 router.get('/categories', (req,res)=>{
   Categori.find().sort({date:"desc"}).then((categories) => {
     const data = categories.map((result) => result.toJSON())
@@ -124,6 +120,21 @@ router.post("/categories/delete", (req,res) => {
 
 
 // ROTAS DE POSTAGENS
+
+router.get("/posts", (req,res) => {
+  res.render("admin/posts")
+})
+
+router.get("/posts/add", (req,res) => {
+  Categori.find()
+  .then((categori) =>{
+    res.render("admin/addposts", {categori:categori.map(result => result.toJSON())})
+  }).catch(err => {
+    req.flash("error_msg", "Deu caga se vira ai")
+    res.redirect("/admin")
+  })
+  
+})
 
 
 module.exports = router;
