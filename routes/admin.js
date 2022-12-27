@@ -104,10 +104,21 @@ router.post("/categories/edit", (req,res) => {
   })
 
   .catch(err => {
-    req.flash("error_msg", "Deu caga se virra ai")
+    req.flash("error_msg", "Deu caga se vira ai")
     res.redirect("/admin/categories")
 
     console.log(err)
+  })
+})
+
+router.post("/categories/delete", (req,res) => {
+  Categori.deleteOne({_id:req.body.id})
+  .then(() =>{
+    req.flash("success_msg", "Categoria removida com sucesso")
+    res.redirect("/admin/categories")
+  }).catch(err => {
+    req.flash("error_msg", "Deu caga se vira ai")
+    res.redirect("/admin/categories")
   })
 })
 
