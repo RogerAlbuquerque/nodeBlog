@@ -14,7 +14,7 @@ router.get('/posts', (req,res)=>{
 });
 
 router.get('/categories', (req,res)=>{
-  Categori.find().then((categories) => {
+  Categori.find().sort({date:"desc"}).then((categories) => {
     const data = categories.map((result) => result.toJSON())
 
     res.render("admin/categories", {categories: data})
