@@ -123,4 +123,7 @@ router.post("/categories/delete", (req,res) => {
 })
 
 
+// ROTAS DE POSTAGENS
+
+
 module.exports = router;
