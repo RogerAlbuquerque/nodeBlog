@@ -73,5 +73,43 @@ router.post('/categories/new', (req,res)=>{
 }
 });
 
+router.get("/categories/edit/:id", (req,res)=> {
+
+Categori.findOne({_id:req.params.id}).lean().then((categori) => {
+  
+  console.log(categori)
+
+  res.render("admin/editCategori", {categori: categori})
+
+})
+.catch(err =>{
+  console.log(err)
+  // req.flash("error_msg", "Categoria não existe")
+  // res.redirect("/admin/categories")
+})
+})
+
+router.post("/categories/edit", (req,res) => {
+  Categori.findOne({_id: req.body.id}).then(categori => {
+    categori.nome = req.body.name
+    categori.slug = req.body.slug
+
+    categori.save().then(() =>{
+      req.flash("success_msg", "Categoria editada com sucesso")
+      res.redirect("/admin/categories")
+    }).catch(err => {
+      req.flash("error_msg", "Deu caga se virra ai")
+      res.redirect("/admin/categories")
+    })
+  })
+
+  .catch(err => {
+    req.flash("error_msg", "Deu caga se virra ai")
+    res.redirect("/admin/categories")
+
+    console.log(err)
+  })
+})
+
 
 module.exports = router;
