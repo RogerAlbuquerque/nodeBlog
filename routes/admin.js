@@ -2,8 +2,10 @@ const express= require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 require("../models/Categori");
+require("../models/Posts");
 
 const Categori = mongoose.model("categories")
+const Post = mongoose.model("posts")
 
 router.get('/', (req,res)=>{
   res.render("admin/index")
@@ -94,7 +96,7 @@ router.post("/categories/edit", (req,res) => {
       req.flash("success_msg", "Categoria editada com sucesso")
       res.redirect("/admin/categories")
     }).catch(err => {
-      req.flash("error_msg", "Deu caga se virra ai")
+      req.flash("error_msg", "Deu caga se vira ai")
       res.redirect("/admin/categories")
     })
   })
@@ -122,7 +124,17 @@ router.post("/categories/delete", (req,res) => {
 // ROTAS DE POSTAGENS
 
 router.get("/posts", (req,res) => {
-  res.render("admin/posts")
+  Post.find().populate("categori").sort({data:"desc"})
+  .then(posts => {
+    res.render("admin/posts", {posts: posts.map(result => result.toJSON())})
+  })
+  .catch(err =>{
+    req.flash("error_msg", "Deu caga se vira ai")
+    res.redirect("/admin")
+    console.log(err);
+  })
+
+ 
 })
 
 router.get("/posts/add", (req,res) => {
@@ -134,6 +146,40 @@ router.get("/posts/add", (req,res) => {
     res.redirect("/admin")
   })
   
+})
+
+router.post("/posts/new", (req,res) => {
+  let error = []
+  if(req.body.categori == "0"){
+    error.push({text: "Categoria inválida, registere uma categoria"})
+  }
+  if(error.length > 0){
+    res.render("admin/addposts", {error: error})
+  }else{
+    const newPost = {
+      title: req.body.title,
+      description: req.body.description,
+      content: req.body.content,
+      categori: req.body.categori,
+      slug: req.body.slug,
+    }
+
+    new Post(newPost).save().then(() =>{
+      req.flash("success_msg", "Postagem criada com sucesso")
+      res.redirect("/admin/categories")
+    }).catch(err => {
+      req.flash("error_msg", "Deu caga se vira ai")
+      res.redirect("/admin/posts")
+      console.log(err);
+    
+  })
+  }
+
+
+})
+
+router.get("/pots/edit/:id" , (req,res) => {
+  res.render("admin/editposts")
 })
 
 
