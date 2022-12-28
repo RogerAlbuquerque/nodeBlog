@@ -227,4 +227,6 @@ router.get("/posts/delete/:id", (req,res) => {
     res.redirect("/admin/posts")
   })
 })
+
+
 module.exports = router;

@@ -41,7 +41,7 @@
 
   //Mongoose
     mongoose.set("strictQuery", true);
-    mongoose.Promise = global.Promise;
+    mongoose.Promise = global.Promise;  // O mano não falou exatamente pra que é isso no curso, disse que é só pra evitar alguns erros bestas.
     mongoose.connect('mongodb://127.0.0.1/nodeblog').then(()=>{console.log("conectou")}).catch((erro)=>{console.log("deu merda: " + erro)})
 
 
