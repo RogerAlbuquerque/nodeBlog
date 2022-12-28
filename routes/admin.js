@@ -221,4 +221,10 @@ router.post("/posts/edit", (req,res) => {
   })
 })
 
+router.get("/posts/delete/:id", (req,res) => {
+  Post.deleteOne({_id:req.params.id}).then(() => {
+    req.flash("success_msg", "Postagem deletada com sucesso")
+    res.redirect("/admin/posts")
+  })
+})
 module.exports = router;
