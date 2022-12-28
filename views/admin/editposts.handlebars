@@ -8,7 +8,7 @@
   <div class="card-body">
     <h4>Editar postagem: </h4>
     <form action="/admin/posts/edit" method="post">
-      <input type="text" value="{{posts._id}}" name="id">
+      <input type="hidden" value="{{posts._id}}" name="id">
 
       <label for="title">Título:</label>        
       <input type="text" name="title" class="form-control" value="{{posts.title}}" required>
