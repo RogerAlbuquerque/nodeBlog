@@ -8,6 +8,11 @@
   const session    = require('express-session')
   const flash      = require('connect-flash')
 
+  require("./models/Posts")
+  require("./models/Categori")
+
+  const Posts = mongoose.model("posts")
+  const Categori = mongoose.model("categories")
   const app        = express();
 
 // Configurações
@@ -50,6 +55,62 @@
 
 
 // Rotas
+  app.get('/', (req,res) =>{ 
+    Posts.find().populate("categori").sort({data: "desc"}).then(posts =>{
+      res.render("index", {posts: posts.map(result => result.toJSON())})
+    }).catch(err => {
+      req.flash("error_msg", "Deu caca se vira ai")
+      res.redirect("/404")
+    })
+
+  })
+
+  app.get("/posts/:slug", (req,res) => {
+    Posts.findOne({slug: req.params.slug}).lean()
+    .then(post => {
+
+      if(post){
+
+        res.render("posts/index", {post: post})
+
+      }else{
+
+        req.flash("error_msg", "Deu caga se vira ai")
+        res.redirect("/")
+
+      }
+      
+    }).catch(err => {
+      req.flash("error_msg", "Deu caga se vira ai")
+      res.redirect("/404")
+    })
+
+    
+  })
+
+
+  app.get("/categories", (req,res) => {
+    Categori.find().lean().then(categories =>{
+      res.render("categories/index", {categories:categories})
+
+    }).catch(err => {
+      req.flash("error_msg", "Deu caca se vira ai")
+      res.redirect("/404")
+    })
+  })
+
+  app.get("categories/:slug", (req,res) => {
+
+  })
+
+
+
+
+  app.get("/404",(req,res) => {
+      res.send("<h1> Erro 404! </h1>")
+  } )
+
+
   app.use('/admin', admin);
 
 
