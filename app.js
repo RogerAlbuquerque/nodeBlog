@@ -23,7 +23,7 @@
 
   //MIDDLEWARE
     app.use((req,res,next) => {
-      res.locals.success_msg = req.flash("success_msg")   /* res.locals é uma forma de criar varáveis globais dentro do                                                     projeto*/
+      res.locals.success_msg = req.flash("success_msg")   /* res.locals é uma forma de criar varáveis globais dentro do projeto*/
       res.locals.error_msg = req.flash("error_msg")
       next()
     });
