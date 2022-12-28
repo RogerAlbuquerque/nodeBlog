@@ -96,11 +96,36 @@
     }).catch(err => {
       req.flash("error_msg", "Deu caca se vira ai")
       res.redirect("/404")
+      console.log(err)
     })
   })
 
-  app.get("categories/:slug", (req,res) => {
+  app.get("/categories/:slug", (req,res) => {
+    Categori.findOne({slug: req.params.slug}).then(categori => {
 
+      if(categori){
+
+          Posts.find({categori: categori._id}).lean().then(posts => {
+
+            res.render("categories/posts", {posts:posts, categori:categori})
+
+          }).catch(err => {
+            req.flash("error_msg", "Deu caca se vira ai")
+            res.redirect("/")
+            console.log(err)
+          })
+
+      }else{
+        req.flash("error_msg", "Deu caca se vira ai")
+      res.redirect("/")
+      console.log(err)
+      }
+
+    }).catch(err =>{
+      req.flash("error_msg", "Deu caca se vira ai")
+      res.redirect("/")
+      console.log(err)
+    })
   })
 
 

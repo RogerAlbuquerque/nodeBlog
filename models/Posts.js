@@ -28,7 +28,7 @@ const Post = new Schema ({
   },
   
   categori:{
-    type: Schema.Types.ObjectId,    // Esse aqui é um caampop que vai armazenar o ID de uma categoria.
+    type: Schema.Types.ObjectId,    // Esse aqui é um campo que vai armazenar o ID de uma categoria.
     ref:"categories",
     required:true
   }
