@@ -178,9 +178,47 @@ router.post("/posts/new", (req,res) => {
 
 })
 
-router.get("/pots/edit/:id" , (req,res) => {
-  res.render("admin/editposts")
+router.get("/posts/edit/:id" , (req,res) => {
+
+    Post.findOne({_id: req.params.id}).lean().then(posts =>{
+      
+      Categori.find().lean().then(categories => {
+       
+          res.render("admin/editposts", {categories:categories, posts: posts})
+
+      }).catch(err => {
+          console.log("categori error: ", err)
+      })
+    })
+    .catch(err=> {
+        console.log("Post error: ", err)
+    })
+  
+  
 })
 
+router.post("/posts/edit", (req,res) => {
+
+  Post.findOne({_id: req.body.id})
+  .then(post =>{
+    post.title =req.body.title;
+    post.slug =req.body.slug;
+    post.description =req.body.description;
+    post.content =req.body.content;
+    post.categori =req.body.categori;
+
+    post.save().then(() =>{
+      req.flash("success_msg", "Postagem editada com sucesso")
+      res.redirect("/admin/posts")
+    })  
+    
+
+  })
+  .catch(err => {
+    req.flash("error_msg", "Deu caga se vira ai")
+    res.redirect("/admin/posts")
+    console.log(err)
+  })
+})
 
 module.exports = router;
