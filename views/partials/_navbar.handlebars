@@ -22,7 +22,9 @@
 
         {{!-- Esse "user" vem lá da variável global "user" do "passport" --}}
       {{#if user}}  
-        <h1>DEU BOM</h1>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/logout">Logout</a>
+        </li>
       {{else}}
         <li class="nav-item">
           <a class="nav-link" href="/user/login">Login</a>
