@@ -1,8 +1,10 @@
-const express= require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
+const express   = require('express');
+const router    = express.Router();
+const mongoose  = require('mongoose');
+const {isAdmin} = require('../helper/isadmin')
 require("../models/Categori");
 require("../models/Posts");
+
 
 const Categori = mongoose.model("categories")
 const Post = mongoose.model("posts")

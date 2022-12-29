@@ -39,6 +39,10 @@
       res.locals.success_msg = req.flash("success_msg")   /* res.locals é uma forma de criar varáveis globais dentro do projeto*/
       res.locals.error_msg = req.flash("error_msg")
       res.locals.error = req.flash("error")               // Essa é para controlar as mensagens de autenticação
+      res.locals.user = req.user || null;
+
+      console.log("Global Var: ")
+      console.log(req.user);
       next()
     });
 
