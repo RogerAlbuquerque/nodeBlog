@@ -45,9 +45,4 @@ module.exports = function (passport) {
     })
 
   })
-
-  
-
-
-
 }
