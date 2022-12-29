@@ -3,13 +3,16 @@
   const handlebars = require('express-handlebars');
   const bodyParser = require('body-parser');
   const admin      = require('./routes/admin');
+  const users      = require('./routes/user');
   const path       = require('path');
   const mongoose   = require('mongoose') ;
   const session    = require('express-session')
   const flash      = require('connect-flash')
+  
 
   require("./models/Posts")
   require("./models/Categori")
+  
 
   const Posts = mongoose.model("posts")
   const Categori = mongoose.model("categories")
@@ -137,6 +140,7 @@
 
 
   app.use('/admin', admin);
+  app.use('/user', users);
 
 
 
