@@ -41,8 +41,6 @@
       res.locals.error = req.flash("error")               // Essa é para controlar as mensagens de autenticação
       res.locals.user = req.user || null;
 
-      console.log("Global Var: ")
-      console.log(req.user);
       next()
     });
 
