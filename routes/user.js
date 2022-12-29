@@ -1,6 +1,7 @@
 const express  = require("express");
 const mongoose = require("mongoose");
 const bcrypt   = require("bcryptjs");
+const passport = require("passport")
 const router   = express.Router();
 
 require("../models/User")
@@ -89,7 +90,15 @@ const User = mongoose.model("users")
     res.render("user/login")
   })
 
+  router.post("/login", (req,res,next) => {
 
+      passport.authenticate('local', {
+        successRedirect: "/",               // Esse é o campo ao qual o usuário vai ser redirecionado caso dê sucesso na autenticação
+        failureRedirect: "/user/login",
+        failureFlash: true                  // Isso aqui é só para habilitar as mensagens flash
+
+      })(req,res,next)                      // Não faço ideia pra que é isso
+  })
 
 
 
