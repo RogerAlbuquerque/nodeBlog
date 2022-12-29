@@ -51,6 +51,7 @@ const User = mongoose.model("users")
             name:req.body.name,
             email:req.body.email,
             password:req.body.password,
+            isAdmin: 1
           })
           //ANTES DE SALVAR NO BANCO PRECISAR CONVERTER A SENHA EM HASH COMO BCRYPT
           bcrypt.genSalt(10, (error, salt) => {
@@ -102,9 +103,11 @@ const User = mongoose.model("users")
 
 
   router.get("/logout", (req,res) => {
-      req.logout()
-      req.flash("success_msg", "Deslogado com sucesso!")
-      res.redirect("/")
+      req.logout(() =>{
+        req.flash("success_msg", "Deslogado com sucesso!")
+        res.redirect("/")
+      })  
+     
   })
 
 
