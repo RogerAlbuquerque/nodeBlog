@@ -14,7 +14,7 @@
   require("./models/Posts")
   require("./models/Categori")
   
-  require("./config/auth")(passport)  // Aqui parece que ta passando o módulo do passport para aqual configuração no auth
+  require("./config/auth")(passport)  // Aqui parece que ta passando o módulo do passport para qual configuração no auth
   
 
   const Posts = mongoose.model("posts")
