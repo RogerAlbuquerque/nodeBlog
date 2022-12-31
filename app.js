@@ -32,7 +32,7 @@
     app.get("/test", (req,res) =>{
       res.send("<h1> ROTA DE TESTE, OLHE O CONSOLE</h1>")
 
-      console.log(session)
+      console.log(passport)
     })
 
     app.use(passport.initialize())
@@ -77,11 +77,13 @@
     Posts.find().populate("categori").sort({data: "desc"}).then(posts =>{
       res.render("index", {posts: posts.map(result => result.toJSON())})
     }).catch(err => {
-      req.flash("error_msg", "Deu caca se vira ai")
-      res.redirect("/404")
+      // req.flash("error_msg", "Deu caca se vira ai")
+      // res.redirect("/404")
+      console.log(err)
     })
 
   })
+
 
   app.get("/posts/:slug", (req,res) => {
     Posts.findOne({slug: req.params.slug}).lean()
@@ -101,6 +103,7 @@
     }).catch(err => {
       req.flash("error_msg", "Deu caga se vira ai")
       res.redirect("/404")
+      console.log(err)
     })
 
     
