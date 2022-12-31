@@ -8,7 +8,8 @@
   const mongoose   = require('mongoose') ;
   const session    = require('express-session')
   const flash      = require('connect-flash')
-  const passport   = require('passport')
+  const passport   = require('passport');
+
 
   require("./models/Posts")
   require("./models/Categori")
@@ -26,7 +27,13 @@
       secret: "cursodenode",
       resave: true,
       saveUninitialized: true
-    }));
+    })); 
+
+    app.get("/test", (req,res) =>{
+      res.send("<h1> ROTA DE TESTE, OLHE O CONSOLE</h1>")
+
+      console.log(session)
+    })
 
     app.use(passport.initialize())
     app.use(passport.session())
