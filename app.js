@@ -14,7 +14,7 @@
   require("./models/Posts")
   require("./models/Categori")
   
-  require("./config/auth")(passport)  // Aqui parece que ta passando o módulo do passport para qual configuração no auth
+  require("./config/auth")(passport)  // Essa chamada aqui é basicamente para configurar o passport para autenticações na aplicação
   
 
   const Posts = mongoose.model("posts")
@@ -24,15 +24,17 @@
 // Configurações
   //Sessão 
     app.use(session({
-      secret: "cursodenode",
-      resave: true,
-      saveUninitialized: true
+      secret: "cursodenode",  // Essa "secret" é a chave que vai ser usada para criptografar os dados do cookie da seção, ela precisa estar em uma variável de ambiente
+      resave: true,           // Isso é se a cada requisição é para ser salvo todos os dados da seção
+      saveUninitialized: true, // Deve ou não salvar sessões anônimas
+      cookie: {
+        maxAge: 2 * 60 * 1000 //Isso aqui é a duração de um cookie, nesse caso é para 2 minutos, os numeros são minutos,segundos,milissegundos
+      }
+      /* Por padrão a sessão é armazenada em memória, para armazenar no banco de dados é preciso adicionar um "store"  mas ai precisa de mais pacotes*/
     })); 
 
     app.get("/test", (req,res) =>{
       res.send("<h1> ROTA DE TESTE, OLHE O CONSOLE</h1>")
-
-      console.log(passport)
     })
 
     app.use(passport.initialize())
@@ -77,8 +79,8 @@
     Posts.find().populate("categori").sort({data: "desc"}).then(posts =>{
       res.render("index", {posts: posts.map(result => result.toJSON())})
     }).catch(err => {
-      // req.flash("error_msg", "Deu caca se vira ai")
-      // res.redirect("/404")
+      req.flash("error_msg", "Deu caca se vira ai")
+      res.redirect("/404")
       console.log(err)
     })
 
